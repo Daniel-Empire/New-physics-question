@@ -1,0 +1,61 @@
+<!<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JAMB Physics Quiz</title>
+  <script src="questions.js"></script>
+  <style>
+    body { font-family: Arial; background: #f2f2f2; padding: 20px; }
+    .quiz-box { background: #fff; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .option { margin: 10px 0; }
+    button { padding: 10px 20px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="quiz-box">
+    <h2 id="question">Loading...</h2>
+    <div id="options"></div>
+    <button onclick="nextQuestion()">Next</button>
+    <p id="score"></p>
+  </div>
+
+  <script>
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      if (currentQuestion >= questions.length) {
+        document.getElementById("question").innerText = "Quiz completed!";
+        document.getElementById("options").innerHTML = "";
+        document.getElementById("score").innerText = "Your score: " + score + "/" + questions.length;
+        return;
+      }
+
+      const q = questions[currentQuestion];
+      document.getElementById("question").innerText = q.question;
+      const optionsHTML = q.options.map(option =>
+        `<div class="option"><input type="radio" name="option" value="${option}"> ${option}</div>`
+      ).join("");
+      document.getElementById("options").innerHTML = optionsHTML;
+    }
+
+    function nextQuestion() {
+      const selected = document.querySelector('input[name="option"]:checked');
+      if (!selected) {
+        alert("Please select an option.");
+        return;
+      }
+
+      const answer = selected.value;
+      if (answer === questions[currentQuestion].answer) {
+        score++;
+      }
+
+      currentQuestion++;
+      loadQuestion();
+    }
+
+    window.onload = loadQuestion;
+  </script>
+</body>
+</html>￼Enter
